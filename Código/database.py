@@ -7,7 +7,7 @@ from datetime import datetime
 import pymysql
 
 def get_files():
-    output_path = './output'
+    output_path = '../output'
 
     list_files = []
     if(path.isdir(output_path)):
@@ -38,13 +38,13 @@ def create_table(nome):
     return sql
 
 def insert_into(nome, row):
-    sql = f'''INSERT INTO `{nome}`(data, ultimo, abertura, maxima, minima, volume, var_porcnt)
+    sql = f'''INSERT IGNORE INTO `{nome}`(data, ultimo, abertura, maxima, minima, volume, var_porcnt)
               VALUES ('{row['Data']}', {row['Último']}, {row['Abertura']}, {row['Máxima']}, {row['Mínima']}, '{row['Vol.']}', '{row['Var%']}')'''
 
     return sql
 
-def select_last_data(nome):
-    sql = f'''SELECT data FROM `{nome}` ORDER BY data DESC'''
+def check_table_exist(nome):
+    sql =  f'''SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = 'investing') AND (TABLE_NAME = '{nome}')'''
 
     return sql
 
@@ -58,7 +58,7 @@ def main():
 
     if (len(list_files) != 0):
         for file in list_files:
-            df = pd.read_csv(f'./output/{file}', sep=';', decimal=',')
+            df = pd.read_csv(f'../output/{file}', sep=';', decimal=',')
             df['Data'] = df['Data'].apply(format_data)
             dict_dfs[file[:-4]] = df
 
@@ -69,31 +69,26 @@ def main():
             cursor.execute('CREATE SCHEMA IF NOT EXISTS investing')
             cursor.execute('USE investing')
 
+            cursor.execute('SHOW TABLES')
+            rows = cursor.fetchall()
+            
+            list_tabelas = [item[0] for item in rows]
             for nome, df in dict_dfs.items():
-                cursor.execute(create_table(nome))
-                cursor.execute(select_last_data(nome))
+                if(nome.lower() in list_tabelas):
+                    modificado = 0
+                    for i in range(len(df.index)):
+                        modificado += cursor.execute(insert_into(nome, df.loc[i]))
 
-                row = cursor.fetchone()
-                
-                if(row):
-                    if (True in (df['Data'] == f'{row[0]}').unique()):
-                        index = (df.index[df['Data'] == f'{row[0]}']).tolist()[0]
-                        df = df.loc[:index-1]
-
-                        if(not df.empty):
-                            for i in range(len(df.index)):
-                                cursor.execute(insert_into(nome, df.loc[i]))
-                            print(f'Os dados da tabela {nome} foram atualizados')                        
-                        else:
-                            print(f'A tabela {nome} já está atualizada')
-                    else:
-                        for i in range(len(df.index)):
-                            cursor.execute(insert_into(nome, df.loc[i]))
+                    if(modificado > 0):
                         print(f'Os dados da tabela {nome} foram atualizados')                        
+                    else:
+                        print(f'A tabela {nome} já está atualizada')         
                 else:
+                    cursor.execute(create_table(nome))
+
                     for i in range(len(df.index)):
                         cursor.execute(insert_into(nome, df.loc[i]))
-                    print(f'Os dados da tabela {nome} foram inseridos no BD')
+                    print(f'Os dados da tabela {nome} foram inseridos no BD')   
 
             conn.commit()
         except Exception as e:

@@ -49,7 +49,7 @@ def get_top_acoes():
     options.headless = True
     options.add_argument("--window-size=1920,1200")
 
-    driver = webdriver.Chrome(options=options, executable_path='./chromedriver.exe')
+    driver = webdriver.Chrome(options=options, executable_path='../chromedriver.exe')
 
     driver.get(url)
 
@@ -106,10 +106,10 @@ def main():
 
             print(f'{nome_table}\n{df}\n')
 
-            if(not path.exists('./output')):
-                mkdir('./output')
+            if(not path.exists('../output')):
+                mkdir('../output')
 
-            df.to_csv(f'./output/{nome_table}.csv', sep=';', index=False, encoding='utf-8')
+            df.to_csv(f'../output/{nome_table}.csv', sep=';', index=False, encoding='utf-8')
             
         except HTTPError as e:
             print(f'Houve um erro!\nCódigo do erro: {e.status} - Motivo do erro: {e.reason}')

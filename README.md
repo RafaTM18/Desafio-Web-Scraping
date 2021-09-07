@@ -77,9 +77,15 @@ Para instalar o programa basta seguir os seguintes passos:
 3. ???
 4. Profit
 
-<!-- USAGE EXAMPLES -->
+
 <h2 id="usage">Como utilizar o programa?</h2>
 Como mencionado na sessão dos pré-requisitos, o programa tem funções diversas.
+
+---
+Primeiramente entre na pasta onde estão os programas
+  ```sh
+   cd Código
+   ```
 
 ---
 O comando a seguir é o mais simples:
