@@ -80,26 +80,31 @@ Para instalar o programa basta seguir os seguintes passos:
 <!-- USAGE EXAMPLES -->
 <h2 id="usage">Como utilizar o programa?</h2>
 Como mencionado na sessão dos pré-requisitos, o programa tem funções diversas.
+
+---
 O comando a seguir é o mais simples:
-``` python
- py main.py <link ou lista de links>
+
+``` py
+ py main.py [link ou lista de links]
 ```
 Isso retornará um ou vários arquivos .csv com informações da ação escolhida retiradas do site https://br.investing.com/
 
+---
 Esse comando irá recuperar as informações das 5 ações mais populares no momento de acesso:
-``` python
+``` py
  py main.py top
 ```
 Igualmente ao comando acima, ele irá retornar 5 arquivos .csv
-_OBS: Necessário a biblioteca Selenium e o Driver do Chrome_
-
+ - _OBS: Necessário a biblioteca Selenium e o Driver do Chrome_
+---
 E por fim, esse comando é responsável por inserir no Banco de Dados as informações salvas nos arquivos .csv
-``` python
+``` py
  py database.py
 ```
 Serão criada uma tabela pra cada ação e toda a informação do arquivo .csv será inserido nas tabelas do BD. Além disso, ao rodar esse comando, é possível atualizar os dados das tabelas do BD caso os arquivos .csv estejam atualizados com dados mais recentes.
-_OBS: Necessário a biblioteca PyMySQL e o SGBD MySQL_
-_OBS2: Para realizar a conexão ao BD, estão sendo usadas valores "padrões", então talvez seja necessário a modificação deles_
+ - _OBS: Necessário a biblioteca PyMySQL e o SGBD MySQL_
+ - _OBS2: Para realizar a conexão ao BD, estão sendo usadas valores "padrões", então talvez seja necessário a modificação deles_
+---
 
 <h2 id="license">Licença</h2>
 
