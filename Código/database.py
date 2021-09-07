@@ -43,11 +43,6 @@ def insert_into(nome, row):
 
     return sql
 
-def check_table_exist(nome):
-    sql =  f'''SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = 'investing') AND (TABLE_NAME = '{nome}')'''
-
-    return sql
-
 def main():
     dict_dfs = {}
     list_files = get_files()
