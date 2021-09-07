@@ -27,7 +27,7 @@
 
 <h2 id="about-the-project">Sobre o projeto</h2>
 
-Esse projeto tem como objetivo aplicar as técnicas de Web Scraping para coletar informações do site [Investing.com](https://investing.com/), sendo mais específico o site em sua versão [BR](https://br.investing.com/). A informação ao ser coletada será da seguinte tabela:
+Esse projeto tem como objetivo aplicar as técnicas de Web Scraping para coletar informações do site [Investing.com](https://investing.com/), sendo mais específico o site em sua versão [BR](https://br.investing.com/). A informação ao ser coletada será de tabelas como essa:
 
 <p align="center">
  <img src="https://imgur.com/ylhhjBo.png" alt="Tabela do site br.investing.com">
